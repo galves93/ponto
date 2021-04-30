@@ -13,12 +13,13 @@ class DetalhadoController extends StatefulWidget {
   _DetalhadoControllerState createState() => _DetalhadoControllerState();
 }
 
-class _DetalhadoControllerState extends State<DetalhadoController> with TickerProviderStateMixin {
+class _DetalhadoControllerState extends State<DetalhadoController>
+    with TickerProviderStateMixin {
   DetalhadoService _service;
   Animation animOpacity;
   Animation animSizeContainer;
 
-Color canvasColor;
+  Color canvasColor;
   Color colorSelected = Color(0xFFF7A417);
   Color itemColor = Color(0xFF474747);
 
@@ -62,8 +63,7 @@ Color canvasColor;
   }
 
   void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,9 @@ Color canvasColor;
                                     color: Colors.orange), //blue[600]),
                               ),
                               headerStyle: HeaderStyle(
-                                titleTextBuilder: (date,locale) =>  toBeginningOfSentenceCase(DateFormat.MMMM(locale).format(date)),
+                                titleTextBuilder: (date, locale) =>
+                                    toBeginningOfSentenceCase(
+                                        DateFormat.MMMM(locale).format(date)),
                                 titleTextStyle: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -157,8 +159,8 @@ Color canvasColor;
 
                                   return Container(
                                     decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: gcinzaEscuro)),
+                                        border:
+                                            Border.all(color: gcinzaEscuro)),
                                     child: Align(
                                       alignment: Alignment(0, 0),
                                       child: Text(
@@ -181,8 +183,8 @@ Color canvasColor;
                                     child: Container(
                                       decoration: BoxDecoration(
                                           color: colorSelected,
-                                          borderRadius:
-                                              BorderRadius.circular(gcircularRadius)),
+                                          borderRadius: BorderRadius.circular(
+                                              gcircularRadius)),
                                       width: 100,
                                       height: 100,
                                       child: Align(
@@ -215,20 +217,7 @@ Color canvasColor;
                                 markersBuilder:
                                     (context, date, events, holidays) {
                                   final children = <Widget>[];
-                                  // bool atendidos = true;
-
-                                   if (events.isNotEmpty) {
-
-                                    // if (atendidos) {
-                                    //   for (var node in events) {
-                                    //     if (!builded.eventoAF
-                                    //         .getMarker(node)
-                                    //         .atendido) {
-                                    //       atendidos = false;
-                                    //       break;
-                                    //     }
-                                    //   }
-                                    // }
+                                  if (events.isNotEmpty) {
                                     children.add(
                                       Align(
                                         alignment: Alignment(1, 1),
@@ -237,8 +226,9 @@ Color canvasColor;
                                               const Duration(milliseconds: 200),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.rectangle,
-                                            color:
-                                                events.length%2 == 0 ? gcardGreen : gcardRed,
+                                            color: events.length % 2 == 0
+                                                ? gcardGreen
+                                                : gcardRed,
                                           ),
                                           width: 16.0,
                                           height: 16.0,
@@ -258,10 +248,6 @@ Color canvasColor;
                                   return children;
                                 },
                               ),
-                              // onDaySelected: (date, events) {
-                              //   onDaySelected(events);
-                              //   _animationController.forward(from: 0.0);
-                              // },
                               onVisibleDaysChanged: _onVisibleDaysChanged,
                             ),
                           ),
@@ -277,17 +263,20 @@ Color canvasColor;
                         itemBuilder: (context, i) => Container(
                             height: heightItem,
                             decoration: _border,
-                            margin:     EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0) ,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 8.0),
                             child: Row(
                               children: <Widget>[
                                 Flexible(
                                   flex: 1,
-                                  child: Container( 
+                                  child: Container(
                                     decoration: BoxDecoration(
-                                      color:
-                                          builded.eventoAF.selectedEvents.length%2 == 0
-                                              ? gcardGreen
-                                              : gcardRed,
+                                      color: builded.eventoAF.selectedEvents
+                                                      .length %
+                                                  2 ==
+                                              0
+                                          ? gcardGreen
+                                          : gcardRed,
                                       borderRadius: BorderRadius.only(
                                           topLeft: Radius.circular(circular),
                                           bottomLeft:
@@ -317,7 +306,10 @@ Color canvasColor;
                                           ),
                                         ),
                                         Text(
-                                          builded.eventoAF.selectedEvents.length/2 == 0
+                                          builded.eventoAF.selectedEvents
+                                                          .length /
+                                                      2 ==
+                                                  0
                                               ? "Atendido"
                                               : "Não\nAtendido",
                                           textAlign: TextAlign.center,
@@ -399,14 +391,15 @@ Color canvasColor;
                                                         padding:
                                                             EdgeInsets.only(
                                                                 left: 12),
-                                                        child: AutoSizeText(
-                                                         '-'
-                                                        )))
+                                                        child:
+                                                            AutoSizeText('-')))
                                               ],
                                             ),
                                             Row(
                                               children: <Widget>[
-                                                Icon(Icons.photo_filter, size: kiconSize,
+                                                Icon(
+                                                  Icons.photo_filter,
+                                                  size: kiconSize,
                                                   color: Colors.white,
                                                 ),
                                                 Flexible(
@@ -414,10 +407,7 @@ Color canvasColor;
                                                         padding:
                                                             EdgeInsets.only(
                                                                 left: 12),
-                                                        child: Text(
-                                                       
-                                                              " - " 
-                                                        )))
+                                                        child: Text(" - ")))
                                               ],
                                             ),
                                           ]),
@@ -434,8 +424,6 @@ Color canvasColor;
             }));
       },
     );
-     return _streamBuilder;
-
-    
+    return _streamBuilder;
   }
 }

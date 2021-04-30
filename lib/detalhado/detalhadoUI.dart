@@ -8,6 +8,7 @@ import '../global.dart';
 import '../provider.dart';
 import 'detalhadoController.dart';
 import 'detalhadoDAO.dart';
+import 'detalhadoUIPage.dart';
 
 class DetalhadoUI extends StatefulWidget {
   _AgendaFornecedorUI createState() => _AgendaFornecedorUI();
@@ -26,7 +27,6 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-
   Future<MultiProvider> futureValue() async {
     return MultiProvider(
       providers: [
@@ -37,7 +37,6 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
           builder: (context, builded, _) {
             return Column(
               children: <Widget>[
-
                 Expanded(
                   child: DetalhadoController(),
                 ),
@@ -52,10 +51,9 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
   @override
   void initState() {
     super.initState();
-    DetalhadoDAO().selectDias();
-    _futureValue = futureValue();
+    // DetalhadoDAO().selectDias();
+    // _futureValue = futureValue();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +62,19 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
         children: <Widget>[
           Scaffold(
             appBar: AppBar(
-              leading: GestureDetector(
-                onTap: (){
-                  Tools().goTo(context,HomeUI());
-                },
-                child: Icon(Icons.arrow_back),
-              ),
+                leading: GestureDetector(
+                  onTap: () {
+                    Tools().goTo(context, HomeUI());
+                  },
+                  child: Icon(Icons.arrow_back),
+                ),
                 backgroundColor: gcorPrincipal,
                 centerTitle: true,
                 title: Text(
                   "Ponto Detalhado",
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  MaterialButton(
                     onPressed: () {},
                     child: Text(
                       "Filtros",
@@ -84,36 +82,31 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
                     ),
                   ),
                 ]),
-            body: MultiProvider(
-              providers: [
-                ChangeNotifierProvider.value(
-                  value: gProviderNotifier,
-                ),
-                Consumer<ProviderNotifier>(
-                  builder: (context, builded, _) {
-
-                    return  FutureBuilder<MultiProvider>(
-                            future: _futureValue,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting)
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              else
-                                return snapshot.data;
-                            },
-                          
-                        
-                      
-                    );
-                  },
-                )
-              ],
-            ),
+            body: DetalhadoUIPage(),
+            // MultiProvider(
+            //   providers: [
+            //     ChangeNotifierProvider.value(
+            //       value: gProviderNotifier,
+            //     ),
+            //     Consumer<ProviderNotifier>(
+            //       builder: (context, builded, _) {
+            //         return FutureBuilder<MultiProvider>(
+            //           future: _futureValue,
+            //           builder: (context, snapshot) {
+            //             if (snapshot.connectionState == ConnectionState.waiting)
+            //               return Center(child: CircularProgressIndicator());
+            //             else
+            //               return snapshot.data;
+            //           },
+            //         );
+            //       },
+            //     )
+            //   ],
+            // ),
           ),
         ],
       ),
-      onWillPop:() =>  Tools().goTo(context,HomeUI()),
+      onWillPop: () => Tools().goTo(context, HomeUI()),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:vr_ponto/global.dart';
 import 'package:vr_ponto/splashScreen.dart';
 import 'provider.dart';
@@ -13,9 +14,9 @@ class MyApp extends StatelessWidget {
     gProviderNotifier = ProviderNotifier();
     return MaterialApp(
       localizationsDelegates: [
-        // GlobalMaterialLocalizations.delegate,
-        // GlobalWidgetsLocalizations.delegate,
-        // GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
