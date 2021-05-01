@@ -37,7 +37,7 @@ dependencies:
   font_awesome_flutter: ^8.5.0
   dio: ^3.0.9
   flutter_svg:
-  sqflite: ^1.1.6+3
+  sqflite: ^2.0.0+3
   crypto: ^2.0.6
   fluttertoast: ^4.0.0
   page_transition: ^1.1.4

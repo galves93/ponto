@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:vr_ponto/loginUI.dart';
+import 'package:vr_ponto/login/loginUI.dart';
 import 'package:vr_ponto/tools.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void goLogin() async {
-    // await Tools().loadDatabase();
+    await Tools().loadDatabase();
     Future.delayed(Duration(milliseconds: 2000), () async {
       Navigator.pushReplacement(
           context,

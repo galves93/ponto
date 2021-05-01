@@ -3,9 +3,12 @@ import 'package:vr_ponto/global.dart';
 import 'package:vr_ponto/tools.dart';
 import 'detalhado/detalhadoUI.dart';
 import 'format.dart';
-import 'loginUI.dart';
+import 'login/loginUI.dart';
 
 class HomeUI extends StatefulWidget {
+  final String nome;
+
+  const HomeUI({Key key, this.nome}) : super(key: key);
   @override
   _HomeUIState createState() => _HomeUIState();
 }
@@ -62,7 +65,7 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
-                          "Gustavo Alves",
+                          "${widget.nome.toUpperCase()}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize:

@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textSelectionHandleColor: Colors.blue,
-        cursorColor: Colors.blue,
+        textSelectionTheme: TextSelectionThemeData(
+            cursorColor: Colors.orange, selectionHandleColor: Colors.orange),
         fontFamily: 'Arial',
         brightness: Brightness.dark,
-        accentColor: Colors.blue,
+        accentColor: Colors.orange,
       ),
       home: SplashScreen(),
     );
