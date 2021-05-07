@@ -2,7 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:vr_ponto/home.dart';
+import 'package:vr_ponto/home/home.dart';
+import 'package:vr_ponto/login/UsuarioVO.dart';
 import 'package:vr_ponto/tools.dart';
 import '../global.dart';
 import '../provider.dart';
@@ -11,6 +12,9 @@ import 'detalhadoDAO.dart';
 import 'detalhadoUIPage.dart';
 
 class DetalhadoUI extends StatefulWidget {
+  final UsuarioLogadoVO usuarioVO;
+
+  const DetalhadoUI({Key key, this.usuarioVO}) : super(key: key);
   _AgendaFornecedorUI createState() => _AgendaFornecedorUI();
 }
 
@@ -27,26 +31,26 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-  Future<MultiProvider> futureValue() async {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: gProviderNotifier,
-        ),
-        Consumer<ProviderNotifier>(
-          builder: (context, builded, _) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  child: DetalhadoController(),
-                ),
-              ],
-            );
-          },
-        )
-      ],
-    );
-  }
+  // Future<MultiProvider> futureValue() async {
+  //   return MultiProvider(
+  //     providers: [
+  //       ChangeNotifierProvider.value(
+  //         value: gProviderNotifier,
+  //       ),
+  //       Consumer<ProviderNotifier>(
+  //         builder: (context, builded, _) {
+  //           return Column(
+  //             children: <Widget>[
+  //               Expanded(
+  //                 child: DetalhadoController(),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //       )
+  //     ],
+  //   );
+  // }
 
   @override
   void initState() {
@@ -57,6 +61,7 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
 
   @override
   Widget build(BuildContext context) {
+    print(widget.usuarioVO.nome);
     return WillPopScope(
       child: Stack(
         children: <Widget>[
@@ -64,7 +69,11 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
             appBar: AppBar(
                 leading: GestureDetector(
                   onTap: () {
-                    Tools().goTo(context, HomeUI());
+                    Tools().goTo(
+                        context,
+                        HomeUI(
+                          usuarioVO: widget.usuarioVO,
+                        ));
                   },
                   child: Icon(Icons.arrow_back),
                 ),
@@ -106,7 +115,11 @@ class _AgendaFornecedorUI extends State<DetalhadoUI>
           ),
         ],
       ),
-      onWillPop: () => Tools().goTo(context, HomeUI()),
+      onWillPop: () => Tools().goTo(
+          context,
+          HomeUI(
+            usuarioVO: widget.usuarioVO,
+          )),
     );
   }
 }

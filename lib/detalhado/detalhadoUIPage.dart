@@ -2,10 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:vr_ponto/login/UsuarioVO.dart';
 
 import '../global.dart';
 
 class DetalhadoUIPage extends StatefulWidget {
+  final UsuarioLogadoVO usuarioVO;
+
+  const DetalhadoUIPage({Key key, this.usuarioVO}) : super(key: key);
   @override
   _DetalhadoUIPageState createState() => _DetalhadoUIPageState();
 }

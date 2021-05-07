@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:vr_ponto/login/cadastro_usuario/cadastro_usuarioUI.dart';
 import 'package:vr_ponto/login/loginDAO.dart';
 import 'package:vr_ponto/tools.dart';
 
 import '../global.dart';
-import '../home.dart';
+import '../home/home.dart';
 
 class LoginUI extends StatefulWidget {
   @override
@@ -120,14 +121,6 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                 ),
                 AnimatedBuilder(
                   animation: animOpacity,
-                  // child: Padding(
-                  //   padding: EdgeInsets.only(top: 10),
-                  //   child: Center(
-                  //       child: Text(
-                  //     'Número de fornecedido pelo RH',
-                  //     style: TextStyle(color: gcorPrincipal, fontSize: 14),
-                  //   )),
-                  // ),
                   builder: (BuildContext context, Widget child) {
                     return Opacity(
                       opacity: animOpacity.value,
@@ -162,14 +155,16 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                             animController.reverse();
                           } else {
                             final usuario = await LoginDAO().selectUsuario(
-                                loginController.text, senhaController.text);
+                              loginController.text,
+                              senhaController.text,
+                            );
                             await animController.forward();
                             Future.delayed(Duration(milliseconds: 500),
                                 () async {
                               Tools().goTo(
                                   context,
                                   HomeUI(
-                                    nome: usuario.nome,
+                                    usuarioVO: usuario,
                                   ));
                             });
                           }
@@ -178,6 +173,15 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                     );
                   },
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Text("Criar novo cadastro!"),
+                    onTap: () {
+                      Tools().goTo(context, CadastroUsuarioUI());
+                    },
+                  ),
+                )
               ],
             ),
           ),

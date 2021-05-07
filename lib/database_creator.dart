@@ -40,7 +40,9 @@ class DatabaseCreator {
     sql.write(" id INTEGER PRIMARY KEY, ");
     sql.write(" login TEXT, ");
     sql.write(" senha TEXT, ");
-    sql.write(" nome TEXT ) ");
+    sql.write(" nome TEXT, ");
+    sql.write(" chaveGerente TEXT, ");
+    sql.write(" gerente BOOLEAN DEFAULT FALSE ) ");
 
     await db.execute(sql.toString());
   }

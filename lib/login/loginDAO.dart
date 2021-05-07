@@ -42,23 +42,27 @@ class LoginDAO {
     sql.write(" INSERT INTO USUARIO ( ");
     sql.write(" login, ");
     sql.write(" senha, ");
-    sql.write(" nome ) ");
-    sql.write("VALUES (?, ?, ?) ");
+    sql.write(" nome,  ");
+    sql.write(" chaveGerente,  ");
+    sql.write(" gerente ) ");
+    sql.write("VALUES (?, ?, ?, ?, ?) ");
 
     for (UsuarioVO node in usuario) {
       List params = [
         node.login,
         node.senha,
         node.nome,
+        node.chaveGerente,
+        node.gerente
       ];
 
       await dbMaster.rawInsert(sql.toString(), params);
     }
   }
 
-  Future<UsuarioVO> selectUsuario(String login, senha) async {
+  Future<UsuarioLogadoVO> selectUsuario(String login, senha) async {
     sql = new StringBuffer();
-    UsuarioVO usuarioVO = new UsuarioVO();
+    UsuarioLogadoVO usuarioVO = new UsuarioLogadoVO();
 
     sql.write(" SELECT * FROM USUARIO ");
     sql.write(" WHERE login = '$login' ");
@@ -68,7 +72,7 @@ class LoginDAO {
 
     if (data.isNotEmpty) {
       for (final node in data) {
-        final usuario = UsuarioVO.fromJson(node);
+        final usuario = UsuarioLogadoVO.fromJson(node);
         usuarioVO = usuario;
       }
     }
