@@ -111,6 +111,7 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: TextField(
+                    obscureText: true,
                     controller: senhaController,
                     focusNode: senhaFocus,
                     decoration: InputDecoration(

@@ -50,7 +50,11 @@ class _CadastroUsuarioUIState extends State<CadastroUsuarioUI> {
                     bool isPermission = await CadastroUsuarioDAO()
                         .getChaveGerente(chaveController.text);
                     if (isPermission) {
-                      Tools().goTo(context, NovoCadastroUsuarioUI());
+                      Tools().goTo(
+                          context,
+                          NovoCadastroUsuarioUI(
+                            chaveGerente: chaveController.text,
+                          ));
                     } else {
                       Fluttertoast.showToast(
                           msg: 'Erro ao validar chave',
