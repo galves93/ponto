@@ -45,5 +45,16 @@ class DatabaseCreator {
     sql.write(" gerente BOOLEAN DEFAULT FALSE ) ");
 
     await db.execute(sql.toString());
+    sql = StringBuffer();
+
+    sql.write(" CREATE TABLE IF NO EXISTS BANCO_HORAS (");
+    sql.write(" id INTEGER PRIMARY KEY, ");
+    sql.write(" idusuario INTEGER DEFAULT 0, ");
+    sql.write(" data TEXT, ");
+    sql.write(" hora TEXT, ");
+    sql.write(" saldoTotal TEXT, ");
+    sql.write(" FOREIGN KEY(idusuario) REFERENCES USUARIO(id)");
+    sql.write(" )");
+    await db.execute(sql.toString());
   }
 }

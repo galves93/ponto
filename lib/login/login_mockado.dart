@@ -24,5 +24,9 @@ class JsonRead {
     return json.decode(jsonDecode);
   }
 
-  // dynamic
+  dynamic getHorarioGeral() {
+    jsonDecode = '''
+      
+    ''';
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:vr_ponto/login/cadastro_usuario/cadastro_usuarioUI.dart';
 import 'package:vr_ponto/login/loginDAO.dart';
 import 'package:vr_ponto/tools.dart';
@@ -22,6 +23,7 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
   TextEditingController senhaController = new TextEditingController();
   FocusNode loginFocus = new FocusNode();
   FocusNode senhaFocus = new FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -72,7 +74,7 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 50),
+                  padding: EdgeInsets.only(top: 30),
                   child: Center(
                     child: Container(
                       child: Center(
@@ -82,7 +84,7 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                           size: 70,
                         ),
                       ),
-                      height: 150,
+                      height: MediaQuery.of(context).size.height * 0.2,
                       decoration: BoxDecoration(
                           color: gcorPrincipal,
                           borderRadius: BorderRadius.only(
@@ -93,41 +95,51 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 80),
-                  child: TextField(
-                    onEditingComplete: () {
-                      senhaFocus.requestFocus();
-                    },
-                    controller: loginController,
-                    focusNode: loginFocus,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Login',
-                        hintText: 'Login'),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 80),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Esse campo não pode ficar em branco";
+                            }
+                            return null;
+                          },
+                          onEditingComplete: () {
+                            senhaFocus.requestFocus();
+                          },
+                          controller: loginController,
+                          focusNode: loginFocus,
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Login',
+                              hintText: 'Login'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 16),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Esse campo não pode ficar em branco";
+                            }
+                            return null;
+                          },
+                          obscureText: true,
+                          controller: senhaController,
+                          focusNode: senhaFocus,
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Senha',
+                              hintText: 'Senha'),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: TextField(
-                    obscureText: true,
-                    controller: senhaController,
-                    focusNode: senhaFocus,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Senha',
-                        hintText: 'Senha'),
-                  ),
-                ),
-                AnimatedBuilder(
-                  animation: animOpacity,
-                  builder: (BuildContext context, Widget child) {
-                    return Opacity(
-                      opacity: animOpacity.value,
-                      child: child,
-                    );
-                  },
                 ),
                 AnimatedBuilder(
                   animation: animController,
@@ -141,13 +153,14 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                               borderRadius:
                                   BorderRadius.circular(animButtonCirc.value)),
                           child: Center(
-                              child: animController.value > 0
-                                  ? CircularProgressIndicator()
-                                  : Text(
-                                      'ENTRAR',
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                    )),
+                            child: animController.value > 0
+                                ? CircularProgressIndicator()
+                                : Text(
+                                    'ENTRAR',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                          ),
                           height: 50,
                           width: animButtonWidth.value,
                         ),
@@ -159,15 +172,24 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                               loginController.text,
                               senhaController.text,
                             );
-                            await animController.forward();
-                            Future.delayed(Duration(milliseconds: 500),
+                            if (usuario.login != null) {
+                              await animController.forward();
+                              Future.delayed(
+                                Duration(milliseconds: 500),
                                 () async {
-                              Tools().goTo(
-                                  context,
-                                  HomeUI(
-                                    usuarioVO: usuario,
-                                  ));
-                            });
+                                  Tools().goTo(
+                                      context,
+                                      HomeUI(
+                                        usuarioVO: usuario,
+                                      ));
+                                },
+                              );
+                            } else {
+                              if (!_formKey.currentState.validate()) {
+                                Fluttertoast.showToast(
+                                    msg: "Login ou senha inválidos");
+                              }
+                            }
                           }
                         },
                       ),
