@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:sqflite/sqflite.dart';
-import 'dart:io';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 import 'global.dart';

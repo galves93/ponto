@@ -9,7 +9,7 @@ class DetalhadoDAO {
     ORDER BY A.dataHora ''';
 
     final data = await dbMaster.rawQuery(sql);
-    List<DetalhadoVO> objVOs = List();
+    List<DetalhadoVO> objVOs = [];
 
     for (final node in data) {
       final objVO = DetalhadoVO.fromJson(node);
@@ -34,7 +34,7 @@ class DetalhadoDAO {
 
     final data = await dbMaster.rawQuery(sql);
 
-    List<DetalhadoDiasVO> objVOs = List();
+    List<DetalhadoDiasVO> objVOs = [];
 
     for (var node in data) {
       String dataForn = DateFormat("yyyy-MM-dd")
@@ -50,25 +50,22 @@ class DetalhadoDAO {
 
       var resulForn = await dbMaster.rawQuery(sql2);
 
-      List<DetalhadoVO> listForn = List();
+      List<DetalhadoVO> listForn = [];
 
       for (var nodeForn in resulForn) {
         DetalhadoVO fornecedorVO = DetalhadoVO.fromJson(nodeForn);
         listForn.add(fornecedorVO);
       }
 
-      DetalhadoDiasVO objVO =
-          DetalhadoDiasVO.fromJson(node, listForn);
+      DetalhadoDiasVO objVO = DetalhadoDiasVO.fromJson(node, listForn);
       objVOs.add(objVO);
     }
 
-    var sqlForn =
-        ''' SELECT matricula, operador
+    var sqlForn = ''' SELECT matricula, operador
     FROM PONTO A ''';
 
     if (nomeForn == null || nomeForn == '') {
-      sqlForn = sqlForn +
-          ''' GROUP BY matricula, operador ''';
+      sqlForn = sqlForn + ''' GROUP BY matricula, operador ''';
     } else {
       print(nomeForn);
       sqlForn = sqlForn +
@@ -76,7 +73,7 @@ class DetalhadoDAO {
     }
 
     final dataForn = await dbMaster.rawQuery(sqlForn);
-    List<FornecedorAgenda> objForn = List();
+    List<FornecedorAgenda> objForn = [];
 
     for (final node in dataForn) {
       final obj = FornecedorAgenda.fromJson(node);
@@ -87,10 +84,8 @@ class DetalhadoDAO {
     return objVOs;
   }
 
-
   static Future<void> deleteAll() async {
     String sql = ''' DELETE FROM PONTO ''';
     await dbMaster.execute(sql);
   }
-
 }

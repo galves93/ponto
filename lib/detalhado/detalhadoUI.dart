@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +5,6 @@ import 'package:vr_ponto/home/home.dart';
 import 'package:vr_ponto/login/UsuarioVO.dart';
 import 'package:vr_ponto/tools.dart';
 import '../global.dart';
-import '../provider.dart';
-import 'detalhadoController.dart';
 import 'detalhadoDAO.dart';
 import 'detalhadoUIPage.dart';
 
