@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vr_ponto/global.dart';
+import 'package:vr_ponto/home/codigo_gerenteDAO.dart';
 import 'package:vr_ponto/login/UsuarioVO.dart';
 import 'package:vr_ponto/tools.dart';
 import '../detalhado/detalhadoUI.dart';
@@ -18,17 +19,24 @@ class HomeUI extends StatefulWidget {
 class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
   AnimationController _animController;
   Animation _animSaldo;
+  double saldoTotal = 0.0;
+  int qtdMarcados = 4;
 
   @override
   void initState() {
-    _animController =
-        AnimationController(duration: Duration(milliseconds: 800), vsync: this);
+    _animController = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
-    _animSaldo = Tween<double>(begin: 0, end: -21.2).animate(CurvedAnimation(
+  void didChangeDependencies() async {
+    saldoTotal =
+        await CodigoGerenteDAO().getValorTotal(widget.usuarioVO.id.toString());
+    _animSaldo =
+        Tween<double>(begin: 0, end: saldoTotal).animate(CurvedAnimation(
       parent: _animController,
       curve: Interval(0, 1, curve: Curves.easeInOut),
     ));
@@ -232,7 +240,51 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    border: Border.all(
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(gcircularRadius + 4),
+                  ),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Marcações do dia anterior",
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Quantidade de marcações: $qtdMarcados",
+                          style: TextStyle(
+                              color: qtdMarcados % 2 == 0
+                                  ? Colors.greenAccent
+                                  : Colors.red),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
               child: Container(),
             ),
             Expanded(

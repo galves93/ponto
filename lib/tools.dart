@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:vr_ponto/home/banco_horas/banco_horasDAO.dart';
 import 'package:vr_ponto/login/loginDAO.dart';
 
 import 'database_creator.dart';
@@ -20,5 +21,6 @@ class Tools {
     await DatabaseCreator().initDatabase();
 
     await LoginDAO().getUsuario();
+    await BancoHorasDAO().getBancoHoras();
   }
 }

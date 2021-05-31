@@ -22,4 +22,20 @@ class CodigoGerenteDAO {
 
     return valorChave;
   }
+
+  Future<double> getValorTotal(String id_cliente) async {
+    sql = new StringBuffer();
+    double saldoTotal = 0.0;
+
+    sql.write(" SELECT saldototal FROM banco_horas");
+    sql.write(" WHERE idusuario = $id_cliente");
+
+    var result = await dbMaster.rawQuery(sql.toString());
+
+    for (var node in result) {
+      saldoTotal = double.parse(node.values.first);
+    }
+
+    return saldoTotal;
+  }
 }
