@@ -194,22 +194,20 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
         appBar: gappBar,
         drawer: _drawer,
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Padding(
-                padding: EdgeInsets.all(gpadding),
+                padding: EdgeInsets.all(8),
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(gcircularRadius),
-                      border: Border.all(width: 1, color: Colors.grey)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Container(
                         width: double.infinity,
                         child: Padding(
-                          padding: EdgeInsets.all(gpadding),
+                          padding: EdgeInsets.all(0),
                           child: Center(
                             child: Text('Saldo Banco de Horas',
                                 style: TextStyle(
@@ -223,7 +221,7 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
                             return Container(
                               width: double.infinity,
                               child: Padding(
-                                padding: EdgeInsets.all(gpadding),
+                                padding: EdgeInsets.all(0),
                                 child: Center(
                                   child: Text(
                                       Format().decimal2(_animSaldo.value),
@@ -234,58 +232,64 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
                               ),
                             );
                           }),
+                      Divider(),
                     ],
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
             ),
             Expanded(
               flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    border: Border.all(
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(gcircularRadius + 4),
-                  ),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Marcações do dia anterior",
-                            style: TextStyle(color: Colors.black, fontSize: 15),
-                          ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: MaterialButton(
+                      color: Colors.orange,
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          "Marcar Ponto",
+                          style: TextStyle(fontSize: 40),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Quantidade de marcações: $qtdMarcados",
-                          style: TextStyle(
-                              color: qtdMarcados % 2 == 0
-                                  ? Colors.greenAccent
-                                  : Colors.red),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Marcações do dia anterior:",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Quantidade de marcações: $qtdMarcados",
+                              style: TextStyle(
+                                  color: qtdMarcados % 2 == 0
+                                      ? Colors.greenAccent
+                                      : Colors.red),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
             ),
             Expanded(
               flex: 1,

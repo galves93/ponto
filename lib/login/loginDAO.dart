@@ -10,20 +10,22 @@ class LoginDAO {
   StringBuffer sql = new StringBuffer();
 
   Future getUsuario() async {
-    // String servidor = "";
-    // var response = await dio.get(servidor);
+    String servidor = "http://192.168.56.1:9000/getusuario";
+    var response = await dio.get(servidor);
     List<UsuarioVO> usuario = [];
 
-    dynamic data = JsonRead().usuario();
+    // dynamic data = JsonRead().usuario();
 
-    // if (response.statusCode >= 200 && response.statusCode <= 250) {
-    for (var node in data) {
-      usuario.add(UsuarioVO.fromJson(node));
+    if (response.statusCode >= 200 && response.statusCode <= 250) {
+      for (var node in response.data) {
+        usuario.add(UsuarioVO.fromJson(node));
+      }
     }
 
     // usuario.add();
 
-    // List<UsuarioVO> usuario = (response.data as List).map((e) => UsuarioVO.fromJson(e)).toList();
+    // List<UsuarioVO> usuario =
+    //     (response.data as List).map((e) => UsuarioVO.fromJson(e)).toList();
     await deleteAllUsuario();
     await insertAllUsuario(usuario);
     // }

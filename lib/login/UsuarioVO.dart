@@ -21,7 +21,7 @@ class UsuarioVO {
       login: json['login'],
       senha: json['senha'],
       nome: json['nome'],
-      chaveGerente: json['chaveGerente'],
+      chaveGerente: json['chavegerente'],
       gerente: json['gerente'],
     );
   }

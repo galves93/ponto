@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:toast/toast.dart';
 import 'package:vr_ponto/login/cadastro_usuario/cadastro_usuarioDAO.dart';
 import 'package:vr_ponto/login/loginUI.dart';
 import 'package:vr_ponto/tools.dart';
@@ -31,6 +30,29 @@ class _CadastroUsuarioUIState extends State<CadastroUsuarioUI> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                onEditingComplete: () async {
+                  if (chaveController.text.isNotEmpty) {
+                    bool isPermission = await CadastroUsuarioDAO()
+                        .getChaveGerente(chaveController.text);
+                    if (isPermission) {
+                      Tools().goTo(
+                          context,
+                          NovoCadastroUsuarioUI(
+                            chaveGerente: chaveController.text,
+                          ));
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: 'Erro ao validar chave',
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white);
+                    }
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: 'Campo não pode ser vazio',
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white);
+                  }
+                },
                 textAlign: TextAlign.center,
                 controller: chaveController,
                 decoration: InputDecoration(
