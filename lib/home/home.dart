@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vr_ponto/global.dart';
-import 'package:vr_ponto/home/codigo_gerenteDAO.dart';
+import 'package:vr_ponto/home/banco_horas/banco_horasDAO.dart';
+import 'package:vr_ponto/home/banco_horas/banco_horasVO.dart';
+import 'package:vr_ponto/home/marcar_ponto/marcar_pontoDAO.dart';
 import 'package:vr_ponto/login/UsuarioVO.dart';
 import 'package:vr_ponto/tools.dart';
 import '../detalhado/detalhadoUI.dart';
@@ -10,8 +12,11 @@ import 'codigo_gerente.dart';
 
 class HomeUI extends StatefulWidget {
   final UsuarioLogadoVO usuarioVO;
+  final SaldoTotal saldoLogin;
+  final int qtdMarcacoes;
 
-  const HomeUI({Key key, this.usuarioVO}) : super(key: key);
+  const HomeUI({Key key, this.usuarioVO, this.saldoLogin, this.qtdMarcacoes})
+      : super(key: key);
   @override
   _HomeUIState createState() => _HomeUIState();
 }
@@ -20,26 +25,28 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
   AnimationController _animController;
   Animation _animSaldo;
   double saldoTotal = 0.0;
-  int qtdMarcados = 4;
+  int qtdMarcados;
 
   @override
   void initState() {
     _animController = AnimationController(
         duration: Duration(milliseconds: 1000), vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {});
-
+    qtdMarcados = widget.qtdMarcacoes ?? 0;
     super.initState();
   }
 
   @override
   void didChangeDependencies() async {
-    saldoTotal =
-        await CodigoGerenteDAO().getValorTotal(widget.usuarioVO.id.toString());
+    saldoTotal = widget.saldoLogin == null
+        ? 0.0
+        : double.parse(widget.saldoLogin.saldoTotal);
     _animSaldo =
         Tween<double>(begin: 0, end: saldoTotal).animate(CurvedAnimation(
       parent: _animController,
       curve: Interval(0, 1, curve: Curves.easeInOut),
     ));
+
     super.didChangeDependencies();
   }
 
@@ -247,7 +254,9 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
                     alignment: Alignment.center,
                     child: MaterialButton(
                       color: Colors.orange,
-                      onPressed: () {},
+                      onPressed: () {
+                        MarcarPontoDAO().setMarcarPonto(widget.usuarioVO.id);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
@@ -276,13 +285,15 @@ class _HomeUIState extends State<HomeUI> with SingleTickerProviderStateMixin {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              "Quantidade de marcações: $qtdMarcados",
-                              style: TextStyle(
-                                  color: qtdMarcados % 2 == 0
-                                      ? Colors.greenAccent
-                                      : Colors.red),
-                            ),
+                            child: qtdMarcados == 0
+                                ? Text("Não houve marcações no dia anterior")
+                                : Text(
+                                    "Quantidade de marcações: $qtdMarcados",
+                                    style: TextStyle(
+                                        color: qtdMarcados % 2 == 0
+                                            ? Colors.greenAccent
+                                            : Colors.red),
+                                  ),
                           )
                         ],
                       ),

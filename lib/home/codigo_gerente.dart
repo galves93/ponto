@@ -49,7 +49,7 @@ class _CodigoGerenteState extends State<CodigoGerente> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         textAlign: TextAlign.center,
-                        enabled: false,
+                        readOnly: true,
                         controller: chaveController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(

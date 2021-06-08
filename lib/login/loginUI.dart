@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:vr_ponto/home/banco_horas/banco_horasDAO.dart';
+import 'package:vr_ponto/home/banco_horas/banco_horasVO.dart';
 import 'package:vr_ponto/login/cadastro_usuario/cadastro_usuarioUI.dart';
 import 'package:vr_ponto/login/loginDAO.dart';
 import 'package:vr_ponto/tools.dart';
@@ -23,6 +25,8 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
   TextEditingController senhaController = new TextEditingController();
   FocusNode loginFocus = new FocusNode();
   FocusNode senhaFocus = new FocusNode();
+  SaldoTotal saldoTotal = SaldoTotal();
+  int qtdMarcados;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -174,6 +178,14 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                             );
                             if (usuario.login != null) {
                               await animController.forward();
+                              saldoTotal = await BancoHorasDAO()
+                                  .getSaltoTotal(usuario.id);
+                              qtdMarcados = await BancoHorasDAO()
+                                  .getQtdMarcacoes(DateTime(
+                                          DateTime.now().year,
+                                          DateTime.now().month,
+                                          DateTime.now().day - 1)
+                                      .toString());
                               Future.delayed(
                                 Duration(milliseconds: 500),
                                 () async {
@@ -181,14 +193,16 @@ class _LoginUIState extends State<LoginUI> with SingleTickerProviderStateMixin {
                                       context,
                                       HomeUI(
                                         usuarioVO: usuario,
+                                        saldoLogin: saldoTotal ?? null,
+                                        qtdMarcacoes: qtdMarcados ?? 0,
                                       ));
                                 },
                               );
                             } else {
-                              if (!_formKey.currentState.validate()) {
-                                Fluttertoast.showToast(
-                                    msg: "Login ou senha inválidos");
-                              }
+                              // if (!_formKey.currentState.validate()) {
+                              Fluttertoast.showToast(
+                                  msg: "Login ou senha inválidos");
+                              // }
                             }
                           }
                         },

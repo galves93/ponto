@@ -1,15 +1,13 @@
 class BancoHorasVO {
   int id;
   int idUsuario;
-  double saldoTotal;
   List<Horarios> horarios;
 
-  BancoHorasVO({this.id, this.idUsuario, this.saldoTotal, this.horarios});
+  BancoHorasVO({this.id, this.idUsuario, this.horarios});
 
   BancoHorasVO.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     idUsuario = json['idusuario'];
-    saldoTotal = json['saldototal'];
     if (json['horarios'] != null) {
       horarios = [];
       json['horarios'].forEach((v) {
@@ -29,6 +27,16 @@ class Horarios {
   Horarios.fromJson(Map<String, dynamic> json) {
     // idUsuario = json['idusuario'];
     data = json['data'];
-    horario = json['horario'];
+    horario = json['hora'];
+  }
+}
+
+class SaldoTotal {
+  String saldoTotal;
+
+  SaldoTotal({this.saldoTotal});
+
+  SaldoTotal.fromJson(Map<String, dynamic> json) {
+    saldoTotal = json['saldoTotal'];
   }
 }

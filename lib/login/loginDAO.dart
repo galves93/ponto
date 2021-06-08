@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:vr_ponto/database_creator.dart';
 import 'package:vr_ponto/global.dart';
-import 'package:vr_ponto/login/login_mockado.dart';
 
 import 'UsuarioVO.dart';
 
@@ -21,14 +19,8 @@ class LoginDAO {
         usuario.add(UsuarioVO.fromJson(node));
       }
     }
-
-    // usuario.add();
-
-    // List<UsuarioVO> usuario =
-    //     (response.data as List).map((e) => UsuarioVO.fromJson(e)).toList();
     await deleteAllUsuario();
     await insertAllUsuario(usuario);
-    // }
   }
 
   Future deleteAllUsuario() async {

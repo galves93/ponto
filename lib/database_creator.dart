@@ -49,7 +49,6 @@ class DatabaseCreator {
     sql.write(" CREATE TABLE IF NOT EXISTS banco_horas (");
     sql.write(" id INTEGER PRIMARY KEY, ");
     sql.write(" idusuario INTEGER DEFAULT 0, ");
-    sql.write(" saldoTotal TEXT, ");
     sql.write(" FOREIGN KEY(idusuario) REFERENCES usuario(id)");
     sql.write(" )");
     await db.execute(sql.toString());
